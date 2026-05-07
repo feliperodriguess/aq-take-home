@@ -14,6 +14,8 @@ export type RoomAction =
   | { type: "TOGGLE_FULL_TRANSCRIPT" }
   | { type: "MIC_START" }
   | { type: "MIC_STOP" }
+  /** Bootstrap path: the user kicked off turn 0; show the spinner until /turn responds. */
+  | { type: "BEGIN_BOOTSTRAP" }
   | { type: "STT_DONE"; transcript: string; candidateIndex: number }
   | {
       type: "TURN_DONE"
@@ -54,6 +56,11 @@ export function roomReducer(state: RoomState, action: RoomAction): RoomState {
       return { ...state, phase: { kind: "listening" } }
     case "MIC_STOP":
       return { ...state, phase: { kind: "uploading" } }
+    case "BEGIN_BOOTSTRAP":
+      // Reuse the `thinking` phase so the existing busy/disabled wiring on
+      // the mic button (and the "iris is thinking…" microcopy) lights up
+      // immediately while we wait for /turn to respond with question 0.
+      return { ...state, phase: { kind: "thinking" } }
     case "STT_DONE": {
       const turn: DisplayTurn = {
         index: action.candidateIndex,

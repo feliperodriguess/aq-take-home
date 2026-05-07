@@ -109,6 +109,11 @@ export function useInterviewRunner({ sessionId, state, dispatch }: UseInterviewR
   // First mic click bootstraps turn 0; subsequent clicks open the recorder.
   const handleMicStart = useCallback(() => {
     if (state.turns.length === 0 && !turnInFlightRef.current) {
+      // Surface the in-flight state immediately so the mic button shows a
+      // spinner and goes disabled while /turn is generating question 0.
+      // Without this the FSM stays `idle` until the fetch resolves a few
+      // seconds later, and the button reads as still-clickable.
+      dispatch({ type: "BEGIN_BOOTSTRAP" })
       void requestTurn(null)
       return
     }
