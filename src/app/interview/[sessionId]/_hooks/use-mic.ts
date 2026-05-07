@@ -20,6 +20,10 @@ interface UseMicArgs {
   disabled?: boolean
   /** Whether a network round-trip is in flight; ignore toggles. */
   busy?: boolean
+  /** Live audio track from the shared `useMediaStream` hook (null until enabled). */
+  audioTrack: MediaStreamTrack | null
+  /** Lazily request mic permission. Called on the first start before any track exists. */
+  enableAudio: () => Promise<void>
   /** Fires when the recorder successfully starts. */
   onStart: () => void
   /** Fires once with the captured audio Blob when recording stops. */
@@ -34,18 +38,33 @@ interface UseMicReturn {
 }
 
 /**
- * Owns every browser-side concern of the push-to-talk mic:
- *  - `getUserMedia` + `MediaRecorder` lifecycle
- *  - mime-type negotiation
- *  - global Space keybinding (skipped when typing in form fields)
- *  - cleanup on unmount (stops tracks + tears down recorder)
+ * Push-to-talk recorder. Audio track lifecycle is owned by `useMediaStream`
+ * (so the camera and mic share one `MediaStream` and we never double-prompt).
+ * This hook only owns the per-utterance `MediaRecorder` and the Space hotkey.
  *
- * The component using this hook stays a near-pure renderer.
+ * The recorder is rebuilt on every utterance against a fresh single-track
+ * `MediaStream([audioTrack])` — that's the simplest way to start/stop chunks
+ * without ever re-stopping the underlying mic track.
  */
-export function useMic({ listening, disabled, busy, onStart, onStop, onError }: UseMicArgs): UseMicReturn {
+export function useMic({
+  listening,
+  disabled,
+  busy,
+  audioTrack,
+  enableAudio,
+  onStart,
+  onStop,
+  onError,
+}: UseMicArgs): UseMicReturn {
   const recorderRef = useRef<MediaRecorder | null>(null)
   const chunksRef = useRef<Blob[]>([])
-  const streamRef = useRef<MediaStream | null>(null)
+
+  // Keep the freshest audioTrack accessible from the start() callback without
+  // re-creating the callback (which would churn the Space-key effect below).
+  const audioTrackRef = useRef(audioTrack)
+  useEffect(() => {
+    audioTrackRef.current = audioTrack
+  }, [audioTrack])
 
   const stop = useCallback(() => {
     const rec = recorderRef.current
@@ -56,10 +75,14 @@ export function useMic({ listening, disabled, busy, onStart, onStop, onError }: 
   const start = useCallback(async () => {
     if (recorderRef.current) return
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      streamRef.current = stream
+      if (!audioTrackRef.current) {
+        await enableAudio()
+      }
+      const track = audioTrackRef.current
+      if (!track) throw new Error("Microphone unavailable")
       const mime = pickMime()
-      const rec = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream)
+      const recStream = new MediaStream([track])
+      const rec = mime ? new MediaRecorder(recStream, { mimeType: mime }) : new MediaRecorder(recStream)
       chunksRef.current = []
       rec.ondataavailable = (e) => {
         if (e.data.size > 0) chunksRef.current.push(e.data)
@@ -69,10 +92,6 @@ export function useMic({ listening, disabled, busy, onStart, onStop, onError }: 
         const blob = new Blob(chunksRef.current, { type })
         chunksRef.current = []
         recorderRef.current = null
-        streamRef.current?.getTracks().forEach((t) => {
-          t.stop()
-        })
-        streamRef.current = null
         onStop(blob)
       }
       recorderRef.current = rec
@@ -82,7 +101,7 @@ export function useMic({ listening, disabled, busy, onStart, onStop, onError }: 
       const msg = err instanceof Error ? err.message : "Couldn't access your microphone"
       onError(msg)
     }
-  }, [onStart, onStop, onError])
+  }, [enableAudio, onStart, onStop, onError])
 
   const toggle = useCallback(() => {
     if (disabled || busy) return
@@ -103,12 +122,10 @@ export function useMic({ listening, disabled, busy, onStart, onStop, onError }: 
     return () => window.removeEventListener("keydown", onKey)
   }, [toggle])
 
-  // Cleanup on unmount: kill the stream + recorder regardless of state.
+  // Cleanup on unmount: kill the recorder if it's still running. The audio
+  // track itself is owned by useMediaStream and torn down there.
   useEffect(() => {
     return () => {
-      streamRef.current?.getTracks().forEach((t) => {
-        t.stop()
-      })
       const rec = recorderRef.current
       if (rec && rec.state !== "inactive") rec.stop()
     }

@@ -14,14 +14,27 @@ interface MicButtonProps {
   disabled?: boolean
   /** Show a spinner overlay during round-trip work. */
   busy?: boolean
+  /** Live audio track from the shared `useMediaStream` hook. */
+  audioTrack: MediaStreamTrack | null
+  /** Lazily prompt for mic permission before recording the first utterance. */
+  enableAudio: () => Promise<void>
   onStart: () => void
   onStop: (audio: Blob) => void
   /** Surfaced when permission denied or device errors. Parent renders the alert UI. */
   onError: (message: string) => void
 }
 
-export function MicButton({ listening, disabled, busy, onStart, onStop, onError }: MicButtonProps) {
-  const { toggle } = useMic({ listening, disabled, busy, onStart, onStop, onError })
+export function MicButton({
+  listening,
+  disabled,
+  busy,
+  audioTrack,
+  enableAudio,
+  onStart,
+  onStop,
+  onError,
+}: MicButtonProps) {
+  const { toggle } = useMic({ listening, disabled, busy, audioTrack, enableAudio, onStart, onStop, onError })
   // Local visual: tiny "pressed" translate so the button feels physical.
   const [pressing, setPressing] = useState(false)
 
@@ -36,22 +49,22 @@ export function MicButton({ listening, disabled, busy, onStart, onStop, onError 
       aria-pressed={listening}
       aria-label={listening ? "Stop talking" : "Start talking"}
       className={cn(
-        "relative inline-flex size-20 items-center justify-center rounded-full border transition-all duration-200 ease-out",
+        "relative inline-flex size-[72px] items-center justify-center rounded-full border transition-all duration-200 ease-out",
         "outline-none focus-visible:ring-2 focus-visible:ring-accent/40",
         listening
-          ? "bg-accent text-accent-fg border-transparent shadow-[0_0_32px_rgba(244,162,97,0.5)]"
-          : "bg-bg-raised text-fg-1 border-border-default hover:bg-bg-hover",
+          ? "bg-accent text-accent-fg border-transparent shadow-[0_0_36px_rgba(244,162,97,0.55)]"
+          : "bg-bg-raised text-fg-1 border-border-default hover:bg-bg-hover hover:border-border-strong",
         (disabled || busy) && "cursor-not-allowed opacity-60",
         pressing && !disabled && !busy && "translate-y-px",
       )}
     >
       {listening && <span aria-hidden className="iris-pulse absolute inset-0 rounded-full border border-accent/60" />}
       {busy ? (
-        <SpinnerIcon className="size-7 animate-spin" />
+        <SpinnerIcon className="size-6 animate-spin" />
       ) : listening ? (
-        <MicrophoneSlashIcon className="size-7" weight="fill" />
+        <MicrophoneSlashIcon className="size-6" weight="fill" />
       ) : (
-        <MicrophoneIcon className="size-7" weight="fill" />
+        <MicrophoneIcon className="size-6" weight="fill" />
       )}
     </button>
   )
