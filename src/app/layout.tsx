@@ -38,7 +38,14 @@ export default function RootLayout({
       lang="en"
       className={cn("dark antialiased h-full", inter.variable, instrumentSerif.variable, jetbrainsMono.variable)}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      {/*
+        Browser extensions (ColorZilla, Grammarly, …) inject attributes onto
+        <body> after SSR — `suppressHydrationWarning` silences the resulting
+        attribute mismatch on this element only; children still hydrate strictly.
+      */}
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   )
 }
