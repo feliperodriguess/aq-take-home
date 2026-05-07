@@ -40,3 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 node_modules
+.playwright-mcp
+
+# Playwright / browser-MCP screenshots saved at repo root during verification.
+# These are local debugging artifacts — never commit them.
+/*.png

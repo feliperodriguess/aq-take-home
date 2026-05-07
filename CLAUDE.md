@@ -77,6 +77,9 @@ Examples:
 
 Push to GitHub at every commit so progress is recoverable.
 
+### Never commit Playwright/browser screenshots
+When using the Playwright MCP (or any browser tooling) to verify a flow, the saved PNGs land at the repo root with names like `before-1440.png`, `after-860.png`, `screenshot-*.png`, etc. **These are local debugging artifacts — never `git add` them, never include them in a commit.** If you need to keep one around for the session, leave it untracked; otherwise delete it when you're done. The `.gitignore` already excludes `*.png` at the repo root for this reason — don't override it with `git add -f`.
+
 ## UI handoff — "Iris"
 
 The product has a real design. Bundle path:
