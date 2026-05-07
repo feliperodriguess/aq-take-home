@@ -1,0 +1,153 @@
+{
+  "slug": "backend-engineer",
+  "role": "Backend Engineer",
+  "rubric": [
+    {
+      "competency": "API design",
+      "weight": 0.25,
+      "description": "Designs clear, consistent APIs with sensible resource modelling, error semantics, versioning, and contracts that survive evolution."
+    },
+    {
+      "competency": "Data modeling",
+      "weight": 0.2,
+      "description": "Chooses appropriate storage, models entities and relationships well, reasons about indexes, transactions, and schema migration paths."
+    },
+    {
+      "competency": "Reliability and observability",
+      "weight": 0.2,
+      "description": "Builds for failure: retries, idempotency, timeouts, graceful degradation; instruments services with logs, metrics, and traces that aid real debugging."
+    },
+    {
+      "competency": "Communication",
+      "weight": 0.15,
+      "description": "Explains technical decisions clearly, states assumptions explicitly, and structures answers so a non-backend listener can follow the reasoning."
+    },
+    {
+      "competency": "Systems thinking",
+      "weight": 0.2,
+      "description": "Reasons about system-level trade-offs: scaling, consistency, latency, cost; chooses boundaries between services thoughtfully."
+    }
+  ],
+  "items": [
+    {
+      "id": "be-tell-me-about",
+      "category": "behavioral",
+      "competency": "Communication",
+      "prompt": "Walk me through a backend service you've owned end-to-end. What did it do, what was the trickiest part, and how did you decide on the architecture?",
+      "followUpHints": [
+        "Push for what THEY built vs. the team",
+        "Ask why they picked the language/framework/database they did",
+        "Probe for what they'd change today"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "be-rest-design",
+      "category": "technical",
+      "competency": "API design",
+      "prompt": "You need to design a REST API for managing users, organizations, and roles. Sketch the resources and endpoints, and tell me where you'd push back on the spec.",
+      "followUpHints": [
+        "Probe for handling of nested vs. flat resources",
+        "Ask about pagination, filtering, sparse fieldsets",
+        "Push on error response shape consistency"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "be-idempotency",
+      "category": "technical",
+      "competency": "Reliability and observability",
+      "prompt": "How do you make a write endpoint idempotent? Walk me through the design choices for a POST /payments endpoint.",
+      "followUpHints": [
+        "Push on idempotency-key storage and TTL",
+        "Ask about handling of in-flight duplicate requests",
+        "Probe for failure modes if the key store is unavailable"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "be-relational-vs-doc",
+      "category": "technical",
+      "competency": "Data modeling",
+      "prompt": "When would you choose a relational database over a document store, and vice versa? Tell me about a time the wrong choice caused real pain.",
+      "followUpHints": [
+        "Probe for transactional needs vs. flexible schema",
+        "Ask about indexing strategy in their example",
+        "Push on cost of migrating later"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "be-scaling",
+      "category": "technical",
+      "competency": "Systems thinking",
+      "prompt": "An endpoint that used to handle 100 RPS now needs to handle 5,000 RPS. Walk me through how you'd approach the work, in order.",
+      "followUpHints": [
+        "Push them to start with measurement, not architecture",
+        "Ask which scaling axis (vertical, horizontal, caching, async) they'd reach for first and why",
+        "Probe for awareness of database connection limits"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "be-debug-prod",
+      "category": "technical",
+      "competency": "Reliability and observability",
+      "prompt": "A user reports that a request occasionally returns the wrong data, but only in production and not consistently. How do you investigate?",
+      "followUpHints": [
+        "Probe for hypothesis discipline",
+        "Ask what telemetry they'd reach for first",
+        "Push on whether they'd add logging or use existing tools"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "be-async-jobs",
+      "category": "technical",
+      "competency": "API design",
+      "prompt": "How do you decide whether work should happen inline in the request or be pushed to a background worker? Walk me through your defaults.",
+      "followUpHints": [
+        "Ask about user-perceived latency vs. operational complexity",
+        "Probe for failure handling and retry semantics",
+        "Push on how they expose status back to the user"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "be-schema-migration",
+      "category": "technical",
+      "competency": "Data modeling",
+      "prompt": "You need to rename a heavily-used column in a hot table without downtime. Walk me through your approach.",
+      "followUpHints": [
+        "Probe for the expand-contract pattern",
+        "Ask about backfill strategy and monitoring",
+        "Push on rollback plan if it goes wrong"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "be-tradeoff-call",
+      "category": "behavioral",
+      "competency": "Systems thinking",
+      "prompt": "Tell me about a system-design decision where you knowingly traded off correctness, latency, or cost. How did you make the call, and how did it play out?",
+      "followUpHints": [
+        "Probe for the explicit framing of the trade-off",
+        "Ask who was in the room for the decision",
+        "Push on what changed (or didn't) afterwards"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "be-on-call",
+      "category": "behavioral",
+      "competency": "Reliability and observability",
+      "prompt": "Describe an on-call incident you handled. What broke, what did you do first, and what changed structurally afterwards?",
+      "followUpHints": [
+        "Probe for the diagnostic steps in order",
+        "Ask whether the postmortem produced lasting changes",
+        "Push for any habits they took away from it"
+      ],
+      "difficulty": "medium"
+    }
+  ]
+}

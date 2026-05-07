@@ -1,0 +1,153 @@
+{
+  "slug": "product-manager",
+  "role": "Product Manager",
+  "rubric": [
+    {
+      "competency": "Problem framing",
+      "weight": 0.25,
+      "description": "Reframes vague asks into crisp problem statements; clarifies who the user is, what success looks like, and what's in or out of scope."
+    },
+    {
+      "competency": "Prioritization",
+      "weight": 0.2,
+      "description": "Reasons about effort, impact, and risk; can defend why something is NOT being built; uses frameworks without getting captured by them."
+    },
+    {
+      "competency": "Stakeholder communication",
+      "weight": 0.2,
+      "description": "Aligns engineering, design, and leadership; surfaces disagreements early; writes and speaks with the right level of detail for the audience."
+    },
+    {
+      "competency": "Metrics literacy",
+      "weight": 0.15,
+      "description": "Defines outcome metrics rather than vanity numbers; understands lagging vs. leading, guardrails, and how to read an A/B test honestly."
+    },
+    {
+      "competency": "Execution",
+      "weight": 0.2,
+      "description": "Drives clarity day-to-day; unblocks teams; ships in slices; knows when to cut scope vs. extend timeline; closes the loop after launch."
+    }
+  ],
+  "items": [
+    {
+      "id": "pm-tell-me-about",
+      "category": "behavioral",
+      "competency": "Stakeholder communication",
+      "prompt": "Tell me about a product or feature you've shipped that you're proud of. What was the problem, your hypothesis, and what shipped?",
+      "followUpHints": [
+        "Push for what THEY drove vs. the team",
+        "Ask how they validated the problem before building",
+        "Probe for what the metrics actually showed after launch"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "pm-frame-problem",
+      "category": "technical",
+      "competency": "Problem framing",
+      "prompt": "Your CEO walks up and says 'engagement is down — figure out what to do.' Walk me through how you'd respond in the next 48 hours.",
+      "followUpHints": [
+        "Probe for clarifying questions BEFORE jumping to solutions",
+        "Ask how they'd segment the data",
+        "Push on the difference between 'engagement' and an actual user outcome"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "pm-prioritization",
+      "category": "technical",
+      "competency": "Prioritization",
+      "prompt": "You have three feature requests: a top customer threatening to churn wants A; sales wants B for a deal; engineering says C is critical tech debt. How do you decide?",
+      "followUpHints": [
+        "Probe for what data they'd gather before deciding",
+        "Ask what they'd say no to, and how they'd say it",
+        "Push on whether the loudest voice is the right voice"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "pm-define-metric",
+      "category": "technical",
+      "competency": "Metrics literacy",
+      "prompt": "You're launching a new onboarding flow. What metric(s) would you watch in week one, week four, and quarter one? Why those?",
+      "followUpHints": [
+        "Probe for activation vs. retention vs. revenue distinction",
+        "Ask about guardrail metrics, not just primary",
+        "Push on what would make them roll the change back"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "pm-ab-test",
+      "category": "technical",
+      "competency": "Metrics literacy",
+      "prompt": "An A/B test shows your variant is up 2% on the primary metric, but engineering thinks the experiment was buggy. How do you handle it?",
+      "followUpHints": [
+        "Probe for whether they'd kill the test, re-run, or ship",
+        "Ask what 'buggy' specifically means and how they'd verify",
+        "Push on the cost of being wrong in either direction"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "pm-disagreement",
+      "category": "behavioral",
+      "competency": "Stakeholder communication",
+      "prompt": "Tell me about a time engineering pushed back on your roadmap. How did you handle it?",
+      "followUpHints": [
+        "Probe for whether they actually changed the plan",
+        "Ask what they learned that wasn't in their head before",
+        "Push on the long-term relationship — was there fallout?"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "pm-research",
+      "category": "technical",
+      "competency": "Problem framing",
+      "prompt": "You're considering a new feature but you're not sure if users actually want it. What's the cheapest, fastest way to find out?",
+      "followUpHints": [
+        "Probe for awareness of qualitative vs. quantitative tools",
+        "Ask how many users they'd talk to and how they'd recruit",
+        "Push on what would change their mind"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "pm-cut-scope",
+      "category": "behavioral",
+      "competency": "Execution",
+      "prompt": "Tell me about a launch where you had to cut significant scope close to the ship date. What did you cut, and what did you refuse to?",
+      "followUpHints": [
+        "Probe for the framework or principle behind the call",
+        "Ask whether the cuts shipped later, or never",
+        "Push on what the team learned about scoping for next time"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "pm-failed-launch",
+      "category": "behavioral",
+      "competency": "Execution",
+      "prompt": "Tell me about a feature that didn't work — that missed its goal or got rolled back. What happened, and what did you learn?",
+      "followUpHints": [
+        "Probe for honest ownership vs. blaming the team",
+        "Ask what they'd do differently in the discovery phase",
+        "Push on whether the lesson actually changed their behaviour later"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "pm-prd",
+      "category": "technical",
+      "competency": "Stakeholder communication",
+      "prompt": "How do you write a spec or PRD? Walk me through your default structure and what you do differently for a one-week project vs. a one-quarter one.",
+      "followUpHints": [
+        "Probe for the level of detail vs. flexibility",
+        "Ask how they handle open questions inline",
+        "Push on who they share the doc with, and when"
+      ],
+      "difficulty": "medium"
+    }
+  ]
+}

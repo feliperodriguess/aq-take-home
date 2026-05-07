@@ -1,0 +1,153 @@
+{
+  "slug": "frontend-engineer",
+  "role": "Frontend Engineer",
+  "rubric": [
+    {
+      "competency": "Component design",
+      "weight": 0.25,
+      "description": "Designs reusable, composable components with clear props, sensible defaults, and well-managed boundaries between stateful and presentational layers."
+    },
+    {
+      "competency": "State management",
+      "weight": 0.2,
+      "description": "Chooses appropriate state strategies (local, lifted, derived, server) and reasons about caching, invalidation, and synchronisation between client and server state."
+    },
+    {
+      "competency": "Performance",
+      "weight": 0.2,
+      "description": "Identifies rendering and network bottlenecks, applies measurement-driven optimisation (memoisation, code splitting, virtualisation), and understands browser fundamentals."
+    },
+    {
+      "competency": "Communication",
+      "weight": 0.15,
+      "description": "Explains technical decisions clearly, asks clarifying questions, and structures answers so a non-frontend listener can follow."
+    },
+    {
+      "competency": "Product sense",
+      "weight": 0.2,
+      "description": "Considers end-user impact, accessibility, and edge cases; balances polish and shipping speed; treats UX as a first-class concern."
+    }
+  ],
+  "items": [
+    {
+      "id": "fe-tell-me-about",
+      "category": "behavioral",
+      "competency": "Communication",
+      "prompt": "Walk me through a frontend project you're proud of. What was your role, and what were the most interesting technical decisions?",
+      "followUpHints": [
+        "Push for specifics on what THEY built vs. the team",
+        "Ask why they chose the framework/state lib they did",
+        "Probe for what they would do differently with hindsight"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "fe-component-api",
+      "category": "technical",
+      "competency": "Component design",
+      "prompt": "You're designing a reusable Modal component for a design system. What does its API look like, and how do you keep it flexible without becoming a kitchen sink?",
+      "followUpHints": [
+        "Ask about controlled vs. uncontrolled open state",
+        "Probe for handling of focus trapping and the escape key",
+        "Push on slotting / composition vs. flag props"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "fe-state-strategy",
+      "category": "technical",
+      "competency": "State management",
+      "prompt": "In a React app, when would you reach for a server-state library like React Query or SWR versus putting data into a global store like Redux or Zustand? Where do you draw the line?",
+      "followUpHints": [
+        "Ask about cache invalidation strategy",
+        "Probe for handling of optimistic updates",
+        "Ask how they'd structure a feature that needs both"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "fe-perf-debug",
+      "category": "technical",
+      "competency": "Performance",
+      "prompt": "A page in your app feels janky on mid-tier devices. How do you investigate, and what's the order of operations you'd follow before changing any code?",
+      "followUpHints": [
+        "Push them to mention the Performance panel and flame charts",
+        "Ask about the difference between TBT, INP, and FPS",
+        "Probe for how they'd measure before AND after a fix"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "fe-render-optimisation",
+      "category": "technical",
+      "competency": "Performance",
+      "prompt": "Tell me about a time you used memoisation (React.memo, useMemo, useCallback) to fix a rendering issue. How did you confirm it actually helped?",
+      "followUpHints": [
+        "Probe for whether the fix was the simplest option",
+        "Ask if state structure changes would have removed the need",
+        "Push for evidence — profiler before/after, not vibes"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "fe-accessibility",
+      "category": "technical",
+      "competency": "Product sense",
+      "prompt": "How do you make sure a complex interactive component, like a custom select or combobox, is accessible to keyboard and screen-reader users?",
+      "followUpHints": [
+        "Ask which ARIA roles/attributes apply",
+        "Probe for testing approach (axe, manual NVDA/VoiceOver, etc.)",
+        "Ask about focus management on open/close"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "fe-async-ux",
+      "category": "technical",
+      "competency": "Product sense",
+      "prompt": "How do you handle the loading, error, and empty states for a data-heavy view? Walk me through your default playbook.",
+      "followUpHints": [
+        "Push on skeleton vs. spinner trade-offs",
+        "Ask about retry UX and what they show the user on a 5xx",
+        "Probe for handling of stale-while-revalidate"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "fe-design-disagreement",
+      "category": "behavioral",
+      "competency": "Communication",
+      "prompt": "Describe a time you disagreed with a designer or PM about a UI decision. How did the conversation go, and what was the outcome?",
+      "followUpHints": [
+        "Probe for whether they actually changed their mind, or pushed through",
+        "Ask what data or evidence they brought to the discussion",
+        "Push on the long-term relationship — was there fallout?"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "fe-ssr-trade-off",
+      "category": "technical",
+      "competency": "Component design",
+      "prompt": "When would you reach for server-side rendering or React Server Components versus a fully client-rendered SPA? What changes about how you write components?",
+      "followUpHints": [
+        "Probe for hydration cost awareness",
+        "Ask how they'd handle a feature that needs both",
+        "Push on what's hardest about RSC mental model"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "fe-ship-speed",
+      "category": "behavioral",
+      "competency": "Product sense",
+      "prompt": "Tell me about a time you had to ship something faster than felt comfortable. What did you cut, and what did you refuse to cut?",
+      "followUpHints": [
+        "Ask what shipped to users vs. what was deferred",
+        "Probe for the framework they used to decide",
+        "Push on whether the cuts came back to bite them"
+      ],
+      "difficulty": "medium"
+    }
+  ]
+}
