@@ -14,6 +14,11 @@ interface MicButtonProps {
   disabled?: boolean
   /** Show a spinner overlay during round-trip work. */
   busy?: boolean
+  /**
+   * Whether any turn exists yet. The first click bootstraps turn 0 and must
+   * NOT start a recorder; only subsequent clicks open the mic.
+   */
+  hasTurns: boolean
   /** Live audio track from the shared `useMediaStream` hook. */
   audioTrack: MediaStreamTrack | null
   /** Lazily prompt for mic permission before recording the first utterance. */
@@ -28,13 +33,24 @@ export function MicButton({
   listening,
   disabled,
   busy,
+  hasTurns,
   audioTrack,
   enableAudio,
   onStart,
   onStop,
   onError,
 }: MicButtonProps) {
-  const { toggle } = useMic({ listening, disabled, busy, audioTrack, enableAudio, onStart, onStop, onError })
+  const { toggle } = useMic({
+    listening,
+    disabled,
+    busy,
+    hasTurns,
+    audioTrack,
+    enableAudio,
+    onStart,
+    onStop,
+    onError,
+  })
   // Local visual: tiny "pressed" translate so the button feels physical.
   const [pressing, setPressing] = useState(false)
 

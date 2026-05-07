@@ -44,9 +44,11 @@ export function SelfView({ videoTrack, listening }: SelfViewProps) {
   }, [pos])
 
   // Bind the track to the <video> element via a single-track MediaStream so we
-  // never leak audio out of the candidate side. We depend on `pos` too so the
-  // bind re-runs the moment the video element actually mounts (it's null on
-  // the first render while we wait for the viewport measurement).
+  // never leak audio out of the candidate side. The wrapper is now always
+  // mounted (hidden via `visibility` until we have a `pos`), so the <video>
+  // exists on first commit and this effect runs exactly once per `videoTrack`.
+  // It MUST NOT depend on `pos` — that would tear down and re-attach the
+  // stream on every drag delta and make the camera blink.
   useEffect(() => {
     const el = ref.current
     if (!el) return
@@ -54,7 +56,7 @@ export function SelfView({ videoTrack, listening }: SelfViewProps) {
     return () => {
       el.srcObject = null
     }
-  }, [videoTrack, pos])
+  }, [videoTrack])
 
   // Keep the tile inside the viewport when the window resizes.
   useEffect(() => {
@@ -90,9 +92,9 @@ export function SelfView({ videoTrack, listening }: SelfViewProps) {
     if (wrapper?.hasPointerCapture(e.pointerId)) wrapper.releasePointerCapture(e.pointerId)
   }, [])
 
-  // Avoid first-paint flash at (0,0): hide until we've measured the viewport.
-  if (!pos) return null
-
+  // Always mount the wrapper so the <video> element exists on the first commit
+  // and the bind effect can attach the stream once. Until we've measured the
+  // viewport we keep it `invisible` to avoid a first-paint flash at (0,0).
   return (
     <div
       ref={wrapperRef}
@@ -100,10 +102,11 @@ export function SelfView({ videoTrack, listening }: SelfViewProps) {
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
-      style={{ left: pos.x, top: pos.y, width: TILE_W, height: TILE_H }}
+      style={{ left: pos?.x ?? 0, top: pos?.y ?? 0, width: TILE_W, height: TILE_H }}
       className={cn(
         "fixed z-30 cursor-grab touch-none overflow-hidden rounded-lg border bg-bg-canvas shadow-lg transition-[border-color,box-shadow] duration-200 active:cursor-grabbing",
         listening ? "border-accent shadow-[0_0_24px_rgba(244,162,97,0.35)]" : "border-border-strong",
+        !pos && "invisible",
       )}
     >
       <video

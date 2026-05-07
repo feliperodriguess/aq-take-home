@@ -149,6 +149,7 @@ export function InterviewRoom({ sessionId, job, initialTurns }: InterviewRoomPro
               listening={listening}
               disabled={isMicDisabled(phaseKind)}
               busy={isBusy(phaseKind)}
+              hasTurns={hasTurns}
               audioTrack={media.audioTrack}
               enableAudio={media.enableAudio}
               onStart={runner.handleMicStart}

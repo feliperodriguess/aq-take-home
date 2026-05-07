@@ -20,6 +20,13 @@ interface UseMicArgs {
   disabled?: boolean
   /** Whether a network round-trip is in flight; ignore toggles. */
   busy?: boolean
+  /**
+   * Whether the conversation has turns yet. The very first click is a
+   * "bootstrap" — it asks the engine for turn 0 and must NOT start a
+   * recorder (otherwise the recorder is left orphaned and blocks every
+   * subsequent press because `recorderRef.current` is still set).
+   */
+  hasTurns: boolean
   /** Live audio track from the shared `useMediaStream` hook (null until enabled). */
   audioTrack: MediaStreamTrack | null
   /** Lazily request mic permission. Called on the first start before any track exists. */
@@ -50,6 +57,7 @@ export function useMic({
   listening,
   disabled,
   busy,
+  hasTurns,
   audioTrack,
   enableAudio,
   onStart,
@@ -105,9 +113,24 @@ export function useMic({
 
   const toggle = useCallback(() => {
     if (disabled || busy) return
-    if (listening) stop()
-    else void start()
-  }, [disabled, busy, listening, start, stop])
+    if (listening) {
+      stop()
+      return
+    }
+    if (!hasTurns) {
+      // Bootstrap path: don't open a MediaRecorder yet. The parent will
+      // request turn 0 on `onStart`; recording begins on the next click,
+      // once the FSM has actually advanced past idle.
+      // Pre-prompt for mic permission in the background so the next press
+      // is instant (no permission dialog mid-conversation).
+      void enableAudio().catch(() => {
+        // enableAudio surfaces its own error via the parent's error path.
+      })
+      onStart()
+      return
+    }
+    void start()
+  }, [disabled, busy, listening, hasTurns, enableAudio, onStart, start, stop])
 
   // Space toggles for keyboard a11y, but only when nothing form-y is focused.
   useEffect(() => {
