@@ -49,7 +49,14 @@ pnpm build                 # only if you suspect Next-specific issues; skip othe
 - TypeScript errors block the commit. Fix the type, don't widen to `any`.
 
 ### Commit cadence
-Commit **per feature** (not per file, not at the end of the session). A feature is one of: a finished spec wave, a working UI flow, a passing route handler, etc. Use the **GitHub CLI** (`gh`) for branch/PR operations as needed:
+Commit **as you go**, in the smallest coherent units possible. The target is a focused diff a reviewer can hold in their head — typically a single feature, a single route, a single refactor stage, or one logical layer of a wave. Concretely:
+
+- **Aim for ~5–10 files per commit.** When a change touches more than ~15 files, split it: routes vs. UI, schema vs. consumers, helpers/hooks vs. the components that use them, refactor moves vs. behaviour changes.
+- **Never bundle "everything I did this session" into one commit.** A wave from `specs/00-architecture.md` is *multiple* commits — one per track at minimum, often more.
+- **Refactors get their own commits.** Don't sneak a rename or extraction into a feature commit.
+- **Each commit must compile and biome-clean on its own.** It's fine if an intermediate commit doesn't render a working app end-to-end (e.g. a helper before its consumer) as long as the tree builds.
+
+A feature is one of: a finished spec wave, a working UI flow, a passing route handler, etc. Use the **GitHub CLI** (`gh`) for branch/PR operations as needed:
 ```bash
 gh repo view              # sanity-check we're on the right repo
 gh pr create --fill       # if working on a branch
