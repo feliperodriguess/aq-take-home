@@ -11,9 +11,11 @@
  */
 
 /** Absolute upper bound on assistant turns per session. */
-export const HARD_CAP = 14
+export const HARD_CAP = 10
 /** Lower bound on assistant turns before the engine is allowed to end. */
 export const MIN_QUESTIONS = 6
+/** Soft upper bound surfaced to the model in the prompt as the target range. */
+export const TARGET_MAX_QUESTIONS = 8
 /** Lower bound on follow-up turns required before ending. */
 export const MIN_FOLLOWUPS = 2
 

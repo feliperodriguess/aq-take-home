@@ -9,7 +9,7 @@
  */
 
 import type { Job, Turn } from "@/db/schema"
-import { HARD_CAP, MIN_FOLLOWUPS, MIN_QUESTIONS } from "@/lib/interviewer/rules"
+import { HARD_CAP, MIN_FOLLOWUPS, MIN_QUESTIONS, TARGET_MAX_QUESTIONS } from "@/lib/interviewer/rules"
 import type { QuestionPack } from "@/types/interview"
 
 /**
@@ -57,7 +57,7 @@ export function buildSystem({ job, pack, usedPackIds }: BuildSystemArgs): string
     job.longDescription,
     ``,
     `Your goals:`,
-    `- Conduct a focused interview of ${MIN_QUESTIONS} to 10 questions (hard cap ${HARD_CAP}).`,
+    `- Conduct a focused interview of ${MIN_QUESTIONS} to ${TARGET_MAX_QUESTIONS} questions (hard cap ${HARD_CAP}).`,
     `- Include AT LEAST ${MIN_FOLLOWUPS} follow-up questions that build directly on the candidate's previous answer.`,
     `- Cover each rubric competency with at least one targeted question.`,
     `- End ONLY when (turn_count >= ${MIN_QUESTIONS}) AND (follow_up_count >= ${MIN_FOLLOWUPS}) AND remaining gaps <= 1.`,
