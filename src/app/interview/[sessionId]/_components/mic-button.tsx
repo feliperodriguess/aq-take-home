@@ -65,7 +65,7 @@ export function MicButton({
       aria-pressed={listening}
       aria-label={listening ? "Stop talking" : "Start talking"}
       className={cn(
-        "relative inline-flex size-[72px] items-center justify-center rounded-full border transition-all duration-200 ease-out",
+        "relative inline-flex size-[60px] items-center justify-center rounded-full border transition-all duration-200 ease-out",
         "outline-none focus-visible:ring-2 focus-visible:ring-accent/40",
         listening
           ? "bg-accent text-accent-fg border-transparent shadow-[0_0_36px_rgba(244,162,97,0.55)]"
@@ -76,11 +76,11 @@ export function MicButton({
     >
       {listening && <span aria-hidden className="iris-pulse absolute inset-0 rounded-full border border-accent/60" />}
       {busy ? (
-        <SpinnerIcon className="size-6 animate-spin" />
+        <SpinnerIcon className="size-5 animate-spin" />
       ) : listening ? (
-        <MicrophoneSlashIcon className="size-6" weight="fill" />
+        <MicrophoneSlashIcon className="size-5" weight="fill" />
       ) : (
-        <MicrophoneIcon className="size-6" weight="fill" />
+        <MicrophoneIcon className="size-5" weight="fill" />
       )}
     </button>
   )

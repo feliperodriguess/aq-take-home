@@ -16,8 +16,8 @@ interface SelfViewProps {
 }
 
 /** Initial tile dimensions; the user can drag (but not yet resize) within the viewport. */
-const TILE_W = 240
-const TILE_H = 180
+const TILE_W = 380
+const TILE_H = 280
 const MARGIN = 24
 
 /**
@@ -38,8 +38,8 @@ export function SelfView({ videoTrack, listening }: SelfViewProps) {
     if (pos !== null) return
     if (typeof window === "undefined") return
     setPos({
-      x: window.innerWidth - TILE_W - MARGIN,
-      y: window.innerHeight - TILE_H - MARGIN - 96, // sit above the bottom controls row
+      x: window.innerWidth - TILE_W,
+      y: window.innerHeight - TILE_H, // sit above the bottom controls row
     })
   }, [pos])
 
