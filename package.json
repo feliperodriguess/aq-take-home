@@ -9,10 +9,12 @@
     "lint": "biome check",
     "format": "biome format --write",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit generate && drizzle-kit migrate",
     "db:push": "drizzle-kit push",
+    "db:migrate": "drizzle-kit generate && drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx --env-file=.env.local src/db/seed.ts",
+    "db:reset": "tsx --env-file=.env.local src/db/reset.ts",
+    "db:verify": "tsx --env-file=.env.local src/db/verify.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
