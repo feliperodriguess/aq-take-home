@@ -26,7 +26,7 @@ export function EndButton({ disabled, onConfirm }: EndButtonProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button variant="danger" size="sm" disabled={disabled}>
+          <Button variant="danger" size="sm" disabled={disabled} className="uppercase tracking-[0.08em]">
             <PhoneSlashIcon className="size-3.5" /> End interview
           </Button>
         }

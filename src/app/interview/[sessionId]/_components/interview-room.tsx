@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useReducer, useState } from "react"
+import { useCallback, useReducer } from "react"
 
 import { IrisAvatar } from "@/components/brand/iris-avatar"
 import { Logo } from "@/components/brand/logo"
@@ -47,7 +47,6 @@ export function InterviewRoom({ sessionId, job, initialTurns }: InterviewRoomPro
   const media = useMediaStream()
   const videoOn = media.videoTrack !== null
   const videoBlocked = media.permissionError?.kind === "video"
-  const [videoTouched, setVideoTouched] = useState(false)
 
   const runner = useInterviewRunner({ sessionId, state, dispatch })
 
@@ -57,25 +56,16 @@ export function InterviewRoom({ sessionId, job, initialTurns }: InterviewRoomPro
   const listening = isListening(phaseKind)
 
   const handleVideoToggle = useCallback(() => {
-    setVideoTouched(true)
     if (videoOn) media.disableVideo()
     else void media.enableVideo()
   }, [media, videoOn])
 
-  const cameraCaption = getCameraCaption({
-    blocked: videoBlocked,
-    blockedReason: videoBlocked ? media.permissionError?.reason : undefined,
-    on: videoOn,
-    touched: videoTouched,
-  })
+  // Body rows respect the decision panel; the top bar always spans the
+  // full viewport so the right cluster sits flush with the right edge.
+  const bodyPadRight = state.decisionOpen ? "lg:pr-[340px]" : ""
 
   return (
-    <div
-      className={cn(
-        "fixed inset-0 grid grid-rows-[60px_1fr_88px] overflow-hidden bg-bg-canvas text-fg-1",
-        state.decisionOpen && "lg:pr-[340px]",
-      )}
-    >
+    <div className="fixed inset-0 grid grid-rows-[60px_1fr_88px] overflow-hidden bg-bg-canvas text-fg-1">
       {/* ─── Top bar ─── */}
       <div className="flex items-center justify-between border-b border-border-subtle px-6">
         <div className="flex items-center gap-4">
@@ -96,7 +86,12 @@ export function InterviewRoom({ sessionId, job, initialTurns }: InterviewRoomPro
       </div>
 
       {/* ─── Center hero ─── */}
-      <div className="relative flex flex-col items-center justify-between gap-6 overflow-hidden px-6 pt-8 pb-4">
+      <div
+        className={cn(
+          "relative flex flex-col items-center justify-between gap-6 overflow-hidden px-6 pt-8 pb-4",
+          bodyPadRight,
+        )}
+      >
         <div className="flex flex-1 flex-col items-center justify-center gap-8">
           <IrisAvatar speaking={phaseKind === "speaking"} size={140} />
           <AvatarStatus phase={phaseKind} />
@@ -124,7 +119,12 @@ export function InterviewRoom({ sessionId, job, initialTurns }: InterviewRoomPro
       </div>
 
       {/* ─── Bottom controls ─── */}
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-6 border-t border-border-subtle bg-bg-canvas px-6">
+      <div
+        className={cn(
+          "grid grid-cols-[1fr_auto_1fr] items-center gap-6 border-t border-border-subtle bg-bg-canvas px-6",
+          bodyPadRight,
+        )}
+      >
         <div className="flex items-center gap-2.5 justify-self-start">
           <span
             aria-hidden
@@ -158,14 +158,11 @@ export function InterviewRoom({ sessionId, job, initialTurns }: InterviewRoomPro
           </div>
           <div className="flex flex-col items-center gap-1.5">
             <VideoToggle on={videoOn} disabled={videoBlocked} onToggle={handleVideoToggle} />
-            <span
-              className={cn(
-                "max-w-[140px] truncate text-center font-mono text-[10px] uppercase tracking-[0.16em]",
-                videoBlocked ? "text-fail" : "text-fg-4",
-              )}
-            >
-              {cameraCaption}
-            </span>
+            {videoBlocked && (
+              <span className="max-w-[180px] truncate text-center font-mono text-[10px] uppercase tracking-[0.16em] text-fail">
+                {media.permissionError?.reason ?? "Camera blocked"}
+              </span>
+            )}
           </div>
         </div>
         <span className="hidden justify-self-end font-mono text-[10px] uppercase tracking-[0.12em] text-fg-4 sm:block">
@@ -173,9 +170,7 @@ export function InterviewRoom({ sessionId, job, initialTurns }: InterviewRoomPro
         </span>
       </div>
 
-      {media.videoTrack && (
-        <SelfView videoTrack={media.videoTrack} listening={listening} decisionOpen={state.decisionOpen} />
-      )}
+      {media.videoTrack && <SelfView videoTrack={media.videoTrack} listening={listening} />}
 
       <DecisionPanel signals={state.signals} phase={phaseKind} open={state.decisionOpen} />
 
@@ -190,21 +185,4 @@ function answersCaption(turns: DisplayTurn[]): string {
   if (count === 0) return ""
   if (count === 1) return "1 answer"
   return `${count} answers`
-}
-
-function getCameraCaption({
-  blocked,
-  blockedReason,
-  on,
-  touched,
-}: {
-  blocked: boolean
-  blockedReason: string | undefined
-  on: boolean
-  touched: boolean
-}): string {
-  if (blocked) return blockedReason ?? "Camera blocked"
-  if (!touched) return ""
-  if (on) return "Camera on"
-  return "Camera off"
 }

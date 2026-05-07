@@ -29,7 +29,7 @@ export function VideoToggle({ on, disabled, onToggle }: VideoToggleProps) {
       aria-label={label}
       title={label}
       className={cn(
-        "relative inline-flex size-14 items-center justify-center rounded-full border transition-all duration-200 ease-out",
+        "relative inline-flex size-[72px] cursor-pointer items-center justify-center rounded-full border transition-all duration-200 ease-out",
         "outline-none focus-visible:ring-2 focus-visible:ring-accent/40",
         on
           ? "border-accent bg-accent-soft text-accent hover:bg-bg-hover"

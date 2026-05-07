@@ -19,7 +19,7 @@ export function DecisionPanel({ signals, phase, open }: DecisionPanelProps) {
       id="decision-panel"
       aria-hidden={!open}
       className={cn(
-        "fixed inset-y-[60px] right-0 z-20 hidden w-[340px] flex-col gap-6 overflow-y-auto border-l border-border-subtle bg-bg-raised px-5 py-6 transition-transform duration-300 ease-out lg:flex",
+        "fixed top-[60px] bottom-0 right-0 z-20 hidden w-[340px] flex-col gap-6 overflow-y-auto border-l border-border-subtle bg-bg-raised px-5 py-6 transition-transform duration-300 ease-out lg:flex",
         open ? "translate-x-0" : "translate-x-full",
       )}
     >

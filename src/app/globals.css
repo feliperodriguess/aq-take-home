@@ -205,4 +205,15 @@
     font-family: var(--font-ui);
     -webkit-font-smoothing: antialiased;
   }
+  /* All interactive buttons get a pointer cursor by default;
+     disabled buttons fall back to the not-allowed cursor below. */
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  a[href] {
+    cursor: pointer;
+  }
+  button:disabled,
+  [role="button"][aria-disabled="true"] {
+    cursor: not-allowed;
+  }
 }

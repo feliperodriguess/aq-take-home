@@ -24,7 +24,7 @@ function Logo({ size = "md", className, ...props }: LogoProps) {
   return (
     <span
       data-slot="logo"
-      className={cn("inline-flex items-baseline gap-2 leading-none text-fg-1", className)}
+      className={cn("inline-flex items-center gap-2 leading-none text-fg-1", className)}
       {...props}
     >
       <span
