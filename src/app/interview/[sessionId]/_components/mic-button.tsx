@@ -1,6 +1,6 @@
 "use client"
 
-import { MicrophoneIcon, MicrophoneSlashIcon, SpinnerIcon } from "@phosphor-icons/react"
+import { PlayIcon, SpinnerIcon, StopIcon } from "@phosphor-icons/react"
 import { useState } from "react"
 
 import { cn } from "@/lib/utils"
@@ -78,9 +78,14 @@ export function MicButton({
       {busy ? (
         <SpinnerIcon className="size-5 animate-spin" />
       ) : listening ? (
-        <MicrophoneSlashIcon className="size-5" weight="fill" />
+        // While recording, the click stops the utterance — show a "stop"
+        // square. The earlier MicrophoneSlash glyph read as "mic disabled"
+        // which is the opposite of the actual state (mic is hot).
+        <StopIcon className="size-5" weight="fill" />
       ) : (
-        <MicrophoneIcon className="size-5" weight="fill" />
+        // Pre-record state ("tap to begin" / "tap to talk") — a play
+        // triangle communicates "press to start" better than a static mic.
+        <PlayIcon className="size-5" weight="fill" />
       )}
     </button>
   )
