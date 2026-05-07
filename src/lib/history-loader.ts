@@ -37,7 +37,7 @@ export async function loadHistory(): Promise<HistoryRow[]> {
       endedAt: sessions.endedAt,
       jobSlug: jobs.slug,
       jobTitle: jobs.title,
-      overallScore: evaluations.overallScore,
+      overallScore: sql<number | null>`${evaluations.overallScore}`,
       questionCount: sql<number>`count(${turns.id}) filter (where ${turns.role} = 'assistant')`.mapWith(Number),
     })
     .from(sessions)
