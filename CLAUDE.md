@@ -33,6 +33,7 @@ This applies especially to: Next.js 16, Drizzle, OpenAI Responses API, ElevenLab
 1. **Consult the UI handoff first.** Bundle lives at `/Users/felipe/dev/afterquery/iris-ai-ui-handoff/` — see the dedicated section below before writing any UI.
 2. **Use Tailwind + shadcn/ui.** Compose with existing primitives (`Button`, `Card`, `Dialog`, `Toast`, etc.). Add missing primitives via `pnpm dlx shadcn add <name>` — don't reinvent them. Where the handoff has its own primitive (e.g. `IrisAvatar`, `AccentLine`, `Pill` with semantic tones), build a thin component matching the handoff's API rather than forcing a shadcn equivalent.
 3. Filename convention is **kebab-case** (`mic-button.tsx`, `score-header.tsx`); the exported component identifier stays PascalCase (`export function MicButton()`).
+4. **Component files are capped at 250 lines.** When a `.tsx` file approaches the limit, split it: extract sub-components into siblings, pull pure helpers into `src/lib/<feature>/`, and lift side-effectful logic into custom hooks under `src/app/<route>/_hooks/`. Multi-level ternary chains (`a ? b : c ? d : e ? f : g`) are a smell — replace them with a small helper using a sequence of `if` statements that read top-to-bottom.
 
 ### Verifying features in the browser
 After implementing or fixing a flow that's hard to validate via types alone (mic capture, audio playback, navigation, state machine transitions), drive the browser via the **Playwright MCP** (`mcp__playwright__browser_*` tools) to confirm the path works end-to-end before committing.
