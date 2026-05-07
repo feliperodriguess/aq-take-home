@@ -16,24 +16,21 @@ type JobCardJob = {
 
 interface JobCardProps {
   job: JobCardJob
-  featured?: boolean
 }
 
 /**
  * JobCard — magazine-style card for the home grid. Wraps a Server Action form
  * so the entire card (via the submit button) is keyboard-accessible without
- * any client JavaScript. The featured variant is taller with a larger title
- * to anchor the first row of the grid.
+ * any client JavaScript. Cards are uniform height so the grid stays calm.
  */
-export function JobCard({ job, featured = false }: JobCardProps) {
+export function JobCard({ job }: JobCardProps) {
   return (
     <form
       action={startSessionAction}
       className={cn(
-        "group relative grid grid-rows-[auto_1fr_auto] gap-5 overflow-hidden rounded-xl border border-border-default bg-bg-raised p-6 text-left",
+        "group relative grid h-full min-h-[220px] grid-rows-[auto_1fr_auto] gap-[18px] overflow-hidden rounded-xl border border-border-default bg-bg-raised p-6 text-left",
         "transition-all duration-200 ease-out hover:border-border-strong hover:bg-bg-hover",
         "focus-within:border-border-strong focus-within:bg-bg-hover",
-        featured ? "min-h-[260px] lg:row-span-2 lg:min-h-[440px]" : "min-h-[220px]",
       )}
     >
       <input type="hidden" name="jobId" value={job.id} />
@@ -50,16 +47,9 @@ export function JobCard({ job, featured = false }: JobCardProps) {
       </div>
 
       {/* Title + blurb */}
-      <div className="flex flex-col gap-3">
-        <h3
-          className={cn(
-            "m-0 font-display leading-[1.05] text-fg-1",
-            featured ? "text-4xl lg:text-5xl" : "text-2xl lg:text-3xl",
-          )}
-        >
-          {job.title}
-        </h3>
-        <p className="m-0 text-[13.5px] leading-relaxed text-fg-2">{job.shortDescription}</p>
+      <div className="flex flex-col gap-2.5">
+        <h3 className="m-0 font-display text-[30px] leading-[1.05] text-fg-1">{job.title}</h3>
+        <p className="m-0 text-[13.5px] leading-[1.55] text-fg-2">{job.shortDescription}</p>
       </div>
 
       {/* Bottom: skill chips + CTA */}
