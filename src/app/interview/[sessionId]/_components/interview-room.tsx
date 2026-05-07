@@ -166,7 +166,7 @@ export function InterviewRoom({ sessionId, job, initialTurns }: InterviewRoomPro
             )}
           </div>
         </div>
-        <span className="hidden justify-self-end font-mono text-[10px] uppercase tracking-[0.12em] text-fg-4 sm:block">
+        <span className="hidden justify-self-end pr-6 font-mono text-[10px] uppercase tracking-[0.12em] text-fg-4 sm:block">
           {answersCaption(state.turns)}
         </span>
       </div>
