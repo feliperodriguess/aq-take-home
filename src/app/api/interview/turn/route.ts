@@ -116,13 +116,21 @@ export async function POST(req: Request): Promise<NextResponse> {
   )
   const finalIsFinal = guardrail.isFinal
 
+  // Server-side text fallback: if the guardrail had to OVERRIDE the model's
+  // isFinal=false (i.e. the cap fired and the model was still asking
+  // questions), the persisted text is almost certainly a question. Swap it
+  // for a deterministic closing remark so the candidate doesn't get cut off
+  // mid-question. The prompt already nudges the model to produce a closing
+  // when it knows the cap is imminent — this is the belt-and-suspenders.
+  const finalQuestion = guardrail.overridden && finalIsFinal ? CLOSING_FALLBACK_TEXT : engineOut.question
+
   // 7. Persist assistant turn
   try {
     await db.insert(turns).values({
       sessionId: session.id,
       role: "assistant",
       index: assistantTurnIndex,
-      text: engineOut.question,
+      text: finalQuestion,
       meta: {
         signals: engineOut.signals,
         packItemId: sanitizedPackItemId,
@@ -131,7 +139,10 @@ export async function POST(req: Request): Promise<NextResponse> {
         isFinal: finalIsFinal,
         guardrailOverridden: guardrail.overridden,
         guardrailReason: guardrail.reason ?? null,
+        // Preserve the model's original output for debugging — the persisted
+        // `text` may have been overridden above.
         modelOutput: engineOut,
+        textOverridden: finalQuestion !== engineOut.question,
       },
     })
   } catch (err) {
@@ -145,7 +156,7 @@ export async function POST(req: Request): Promise<NextResponse> {
   // 8. Build response
   const response: TurnResponse = {
     turnIndex: assistantTurnIndex,
-    question: engineOut.question,
+    question: finalQuestion,
     packItemId: sanitizedPackItemId,
     signals: engineOut.signals,
     isFinal: finalIsFinal,
@@ -153,6 +164,14 @@ export async function POST(req: Request): Promise<NextResponse> {
   }
   return NextResponse.json(response, { status: 200 })
 }
+
+/**
+ * Deterministic closing line used when the model ignores the wrap-up hint
+ * and produces another question past the cap. Kept short so the TTS lands
+ * cleanly.
+ */
+const CLOSING_FALLBACK_TEXT =
+  "Thanks so much for walking me through all of that — I have everything I need. We'll be in touch."
 
 // ─── meta helpers ───────────────────────────────────────────────────────────
 //

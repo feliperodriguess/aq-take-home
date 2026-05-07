@@ -2,7 +2,9 @@
  * Server-side guardrails for the interview engine (spec 04 §"Server guardrails").
  *
  * The model can drift on end-conditions, so the route is the source of truth:
- *   - HARD_CAP: never exceed this many assistant turns; force `isFinal` true.
+ *   - HARD_CAP: maximum number of normal (question-bearing) assistant turns.
+ *               The (HARD_CAP + 1)-th turn is forced to a closing remark so
+ *               the candidate always gets to answer their last question.
  *   - MIN_QUESTIONS: minimum assistant turns before we'll allow `isFinal=true`.
  *   - MIN_FOLLOWUPS: minimum follow-up turns required before ending.
  *
@@ -10,7 +12,11 @@
  * import the same numbers without coupling to the prompt text.
  */
 
-/** Absolute upper bound on assistant turns per session. */
+/**
+ * Maximum number of normal question-bearing assistant turns.
+ * Once this many have been persisted, the NEXT turn is forced to a closing
+ * remark (isFinal=true) — the candidate is never cut off after a question.
+ */
 export const HARD_CAP = 10
 /** Lower bound on assistant turns before the engine is allowed to end. */
 export const MIN_QUESTIONS = 6
@@ -51,17 +57,21 @@ export interface GuardrailDecision {
  *   - running counts (`assistantCount`, `followUpCount`) computed by the route.
  *
  * Rules (in order):
- *   1. assistantCount >= HARD_CAP                → force isFinal=true.
+ *   1. assistantCount > HARD_CAP                → force isFinal=true (closing turn).
  *   2. isFinal && assistantCount < MIN_QUESTIONS → force isFinal=false.
  *   3. isFinal && followUpCount < MIN_FOLLOWUPS  → force isFinal=false.
  *   4. otherwise pass through.
+ *
+ * Note rule 1 uses STRICT greater-than: at exactly HARD_CAP we still let the
+ * model produce a normal question so the candidate gets to answer it. The
+ * very next turn (HARD_CAP + 1) is the forced closing.
  */
 export function applyGuardrails(engineOut: EngineGuardrailInput, ctx: GuardrailContext): GuardrailDecision {
-  if (ctx.assistantCount >= HARD_CAP) {
+  if (ctx.assistantCount > HARD_CAP) {
     return {
       isFinal: true,
       overridden: !engineOut.isFinal,
-      reason: engineOut.isFinal ? undefined : `HARD_CAP (${HARD_CAP}) reached`,
+      reason: engineOut.isFinal ? undefined : `HARD_CAP (${HARD_CAP}) reached — forcing closing turn`,
     }
   }
 

@@ -98,5 +98,18 @@ export function buildUser({ turns }: BuildUserArgs): string {
       ? `Candidate's most recent reply is at index ${last.index}. Produce the next assistant turn.`
       : `(The previous assistant turn at index ${last?.index ?? 0} is unanswered.) Produce the next assistant turn — likely a gentle re-prompt or a fresh question.`
 
-  return [`Conversation so far:`, lines, ``, tail].join("\n")
+  // If we've already had HARD_CAP normal questions, the next turn MUST be a
+  // closing remark — the server will force isFinal=true regardless. Tell the
+  // model up front so it produces graceful copy instead of getting its
+  // question text replaced by a server-side fallback.
+  const priorAssistantCount = turns.filter((t) => t.role === "assistant").length
+  const isClosingTurn = priorAssistantCount >= HARD_CAP
+  const wrapUp = isClosingTurn
+    ? [
+        ``,
+        `IMPORTANT: ${HARD_CAP} questions have already been asked — this turn MUST be a brief, warm closing remark, NOT another question. One short sentence thanking the candidate. Set isFinal=true and isFollowUp=false.`,
+      ].join("\n")
+    : ""
+
+  return [`Conversation so far:`, lines, ``, tail + wrapUp].join("\n")
 }
