@@ -1,13 +1,13 @@
 "use client"
 
-import { ClockCounterClockwise, List, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr"
+import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr"
 import { useMemo, useState } from "react"
 
-import { Logo } from "@/components/brand/logo"
 import { AccentLine } from "@/components/ui/accent-line"
 import { cn } from "@/lib/utils"
 
 import { JobCard, type JobCardJob } from "./job-card"
+import { SiteHeader } from "./site-header"
 
 interface JobsViewProps {
   jobs: JobCardJob[]
@@ -60,21 +60,7 @@ export function JobsView({ jobs }: JobsViewProps) {
 
   return (
     <>
-      {/* Sticky chrome — wordmark + breadcrumb on the left, nav on the right */}
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border-subtle bg-bg-canvas px-10 py-5">
-        <div className="flex items-center gap-3.5">
-          <Logo size="sm" />
-          <span className="font-mono text-[11px] leading-none tracking-[0.04em] text-fg-4">
-            ai · interview practice
-          </span>
-        </div>
-        <nav className="flex items-center gap-2">
-          <NavButton active icon={<List size={13} weight="bold" />}>
-            Roles
-          </NavButton>
-          <NavButton icon={<ClockCounterClockwise size={13} weight="bold" />}>History</NavButton>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <main className="relative mx-auto w-full max-w-[1080px] px-10 pt-12 pb-20">
         {/* Editorial header */}
@@ -136,7 +122,7 @@ export function JobsView({ jobs }: JobsViewProps) {
                 No roles available — run <code className="font-mono text-fg-2">pnpm db:seed</code> to load the catalog.
               </>
             ) : (
-              <>No matches. Try a different filter.</>
+              "No matches. Try a different filter."
             )}
           </div>
         )}
@@ -157,35 +143,6 @@ export function JobsView({ jobs }: JobsViewProps) {
 }
 
 /* ---------------- Local sub-components ---------------- */
-
-interface NavButtonProps {
-  active?: boolean
-  icon: React.ReactNode
-  children: React.ReactNode
-}
-
-/**
- * Top-bar nav link. The History entry is non-functional in v1 (deferred per
- * spec), but the chrome stays visually faithful to the handoff so the page
- * doesn't feel half-built. Rendered as a button — when wired up it'll route.
- */
-function NavButton({ active = false, icon, children }: NavButtonProps) {
-  return (
-    <button
-      type="button"
-      aria-current={active ? "page" : undefined}
-      className={cn(
-        "inline-flex items-center gap-2 rounded-[7px] border px-3 py-2 font-ui text-[12px] font-medium leading-none transition-colors duration-150",
-        active
-          ? "border-[rgba(244,162,97,0.20)] bg-accent-soft text-accent"
-          : "border-transparent text-fg-2 hover:bg-bg-raised hover:text-fg-1",
-      )}
-    >
-      {icon}
-      {children}
-    </button>
-  )
-}
 
 interface SegFilterProps {
   value: FilterKey
