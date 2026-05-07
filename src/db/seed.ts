@@ -32,18 +32,18 @@ const JOBS: NewJob[] = [
 ]
 
 async function main() {
+  // neon-http has no transaction support; each insert is idempotent via the
+  // unique slug + onConflictDoNothing, so sequential awaits are safe and
+  // re-running the seed is a no-op.
   let inserted = 0
-
-  await db.transaction(async (tx) => {
-    for (const job of JOBS) {
-      const result = await tx
-        .insert(jobs)
-        .values(job)
-        .onConflictDoNothing({ target: jobs.slug })
-        .returning({ id: jobs.id })
-      inserted += result.length
-    }
-  })
+  for (const job of JOBS) {
+    const result = await db
+      .insert(jobs)
+      .values(job)
+      .onConflictDoNothing({ target: jobs.slug })
+      .returning({ id: jobs.id })
+    inserted += result.length
+  }
 
   const skipped = JOBS.length - inserted
   console.log(`Seed complete. Inserted ${inserted} job(s), skipped ${skipped} existing row(s).`)
