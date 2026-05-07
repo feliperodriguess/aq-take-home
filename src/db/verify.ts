@@ -14,7 +14,7 @@ async function main() {
     sql`SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name`,
   )
   // neon-http returns { rows, rowCount, ... } whereas pg returns an array.
-  const tableRows = Array.isArray(tables) ? tables : (tables as { rows: { table_name: string }[] }).rows
+  const tableRows = Array.isArray(tables) ? tables : (tables as unknown as { rows: { table_name: string }[] }).rows
   console.log("Tables on Neon (public):")
   for (const row of tableRows) console.log("  -", row.table_name)
 
