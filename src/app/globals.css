@@ -9,38 +9,38 @@
 
 @theme {
   /* ---------- Surfaces ---------- */
-  --color-bg-canvas: #14110f;
-  --color-bg-raised: #1c1916;
-  --color-bg-hover: #252119;
-  --color-bg-tint: rgba(244, 162, 97, 0.06);
-  --color-bg-code: #100d0b;
-  --color-ink-1000: #0a0807;
-  --color-ink-950: #14110f;
+  --color-bg-canvas: #111114;
+  --color-bg-raised: #1a1a1e;
+  --color-bg-hover: #232328;
+  --color-bg-tint: rgba(251, 191, 36, 0.06);
+  --color-bg-code: #0d0d10;
+  --color-ink-1000: #08080a;
+  --color-ink-950: #111114;
 
   /* ---------- Borders ---------- */
-  --color-border-subtle: #221f1c;
-  --color-border-default: #2d2925;
-  --color-border-strong: #3d3833;
+  --color-border-subtle: #222226;
+  --color-border-default: #2d2d33;
+  --color-border-strong: #3d3d44;
 
-  /* ---------- Foreground (paper tints) ---------- */
-  --color-fg-1: #f5efe6;
-  --color-fg-2: #c9c0b0;
-  --color-fg-3: #8a8174;
-  --color-fg-4: #5a5246;
-  --color-paper-200: #ece4d4;
-  --color-paper-300: #d4cab7;
+  /* ---------- Foreground (cool neutrals) ---------- */
+  --color-fg-1: #f1f1f3;
+  --color-fg-2: #c3c2c8;
+  --color-fg-3: #86858d;
+  --color-fg-4: #56555d;
+  --color-paper-200: #e6e6ea;
+  --color-paper-300: #cfced5;
 
-  /* ---------- Accent — apricot ---------- */
-  --color-apricot-300: #f8c89f;
-  --color-apricot-500: #f4a261;
-  --color-apricot-600: #e8924a;
-  --color-accent: #f4a261;
-  --color-accent-soft: rgba(244, 162, 97, 0.1);
-  --color-accent-fg: #0a0807;
+  /* ---------- Accent — marigold ---------- */
+  --color-marigold-300: #fcd34d;
+  --color-marigold-500: #fbbf24;
+  --color-marigold-600: #eab308;
+  --color-accent: #fbbf24;
+  --color-accent-soft: rgba(251, 191, 36, 0.1);
+  --color-accent-fg: #1a1505;
 
   /* ---------- Semantic ---------- */
   --color-pass: #9bc26b;
-  --color-warn: #e9b04a;
+  --color-warn: #f59e0b;
   --color-fail: #d97a6a;
   --color-info: #8ba5d6;
 
@@ -53,24 +53,24 @@
   /* ---------- shadcn aliases (mapped onto Iris tokens so existing
        shadcn-installed primitives — card, dialog, input, sonner — keep
        working without their own theme block) ---------- */
-  --color-background: #14110f;
-  --color-foreground: #f5efe6;
-  --color-card: #1c1916;
-  --color-card-foreground: #f5efe6;
-  --color-popover: #1c1916;
-  --color-popover-foreground: #f5efe6;
-  --color-primary: #f4a261;
-  --color-primary-foreground: #0a0807;
-  --color-secondary: #1c1916;
-  --color-secondary-foreground: #f5efe6;
-  --color-muted: #1c1916;
-  --color-muted-foreground: #8a8174;
-  --color-accent-foreground: #0a0807;
+  --color-background: #111114;
+  --color-foreground: #f1f1f3;
+  --color-card: #1a1a1e;
+  --color-card-foreground: #f1f1f3;
+  --color-popover: #1a1a1e;
+  --color-popover-foreground: #f1f1f3;
+  --color-primary: #fbbf24;
+  --color-primary-foreground: #1a1505;
+  --color-secondary: #1a1a1e;
+  --color-secondary-foreground: #f1f1f3;
+  --color-muted: #1a1a1e;
+  --color-muted-foreground: #86858d;
+  --color-accent-foreground: #1a1505;
   --color-destructive: #d97a6a;
-  --color-destructive-foreground: #f5efe6;
-  --color-border: #2d2925;
-  --color-input: #2d2925;
-  --color-ring: #f4a261;
+  --color-destructive-foreground: #f1f1f3;
+  --color-border: #2d2d33;
+  --color-input: #2d2d33;
+  --color-ring: #fbbf24;
 
   --radius: 0.625rem;
   --radius-sm: calc(0.625rem * 0.6);
@@ -170,8 +170,8 @@
   inset: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(circle at 20% 30%, rgba(244, 162, 97, 0.04), transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(244, 162, 97, 0.03), transparent 50%);
+    radial-gradient(circle at 20% 30%, rgba(251, 191, 36, 0.04), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(251, 191, 36, 0.03), transparent 50%);
   z-index: 0;
 }
 

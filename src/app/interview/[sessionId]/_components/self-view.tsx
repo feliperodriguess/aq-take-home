@@ -105,7 +105,7 @@ export function SelfView({ videoTrack, listening }: SelfViewProps) {
       style={{ left: pos?.x ?? 0, top: pos?.y ?? 0, width: TILE_W, height: TILE_H }}
       className={cn(
         "fixed z-30 cursor-grab touch-none overflow-hidden rounded-lg border bg-bg-canvas shadow-lg transition-[border-color,box-shadow] duration-200 active:cursor-grabbing",
-        listening ? "border-accent shadow-[0_0_24px_rgba(244,162,97,0.35)]" : "border-border-strong",
+        listening ? "border-accent shadow-[0_0_24px_rgba(251,191,36,0.35)]" : "border-border-strong",
         !pos && "invisible",
       )}
     >

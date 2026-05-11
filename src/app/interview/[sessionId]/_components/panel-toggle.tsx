@@ -11,7 +11,7 @@ interface PanelToggleProps {
 
 /**
  * Top-bar pill that opens/closes the decision panel. Mirrors the handoff's
- * "Decision panel" toggle — when active, it adopts the apricot accent tint;
+ * "Decision panel" toggle — when active, it adopts the marigold accent tint;
  * when collapsed, it sits flat in the chrome.
  */
 export function PanelToggle({ open, onToggle }: PanelToggleProps) {

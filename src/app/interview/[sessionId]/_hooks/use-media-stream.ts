@@ -12,12 +12,21 @@ export interface MediaStreamApi {
   audioTrack: MediaStreamTrack | null
   /** Live video track (`null` until `enableVideo` succeeds, again `null` after `disableVideo`). */
   videoTrack: MediaStreamTrack | null
+  /**
+   * Soft mute flag. When true, the audio track's `enabled` is set to `false`
+   * (Zoom-style mute — captured audio is silenced without releasing the
+   * device). The mic-button consults this and refuses to start a new turn
+   * while muted so the user never accidentally records silence.
+   */
+  audioMuted: boolean
   /** Lazily request mic permission and add the audio track. No-op if already enabled. */
   enableAudio: () => Promise<void>
   /** Lazily request camera permission and add the video track. No-op if already enabled. */
   enableVideo: () => Promise<void>
   /** Stop the camera track immediately (the OS indicator turns off) and remove it from the stream. */
   disableVideo: () => void
+  /** Flip the soft-mute flag; if an audio track exists, propagate to `track.enabled`. */
+  toggleAudioMute: () => void
   /** Latest permission/device error, if any. Cleared when the corresponding device successfully enables. */
   permissionError: MediaPermissionError | null
 }
@@ -42,6 +51,7 @@ export interface MediaStreamApi {
 export function useMediaStream(): MediaStreamApi {
   const [audioTrack, setAudioTrack] = useState<MediaStreamTrack | null>(null)
   const [videoTrack, setVideoTrack] = useState<MediaStreamTrack | null>(null)
+  const [audioMuted, setAudioMuted] = useState(false)
   const [permissionError, setPermissionError] = useState<MediaPermissionError | null>(null)
   // Refs mirror the latest state so the unmount cleanup can stop tracks
   // without re-running on every track change.
@@ -56,6 +66,8 @@ export function useMediaStream(): MediaStreamApi {
       const captured = await navigator.mediaDevices.getUserMedia({ audio: true })
       const track = captured.getAudioTracks()[0]
       if (!track) throw new Error("No audio track returned")
+      // Honour any prior mute toggle made before the track existed.
+      track.enabled = !audioMuted
       setAudioTrack(track)
       setPermissionError((prev) => (prev?.kind === "audio" ? null : prev))
     } catch (err) {
@@ -63,6 +75,15 @@ export function useMediaStream(): MediaStreamApi {
       setPermissionError({ kind: "audio", reason })
       throw err
     }
+  }, [audioMuted])
+
+  const toggleAudioMute = useCallback(() => {
+    setAudioMuted((prev) => {
+      const next = !prev
+      const track = audioRef.current
+      if (track) track.enabled = !next
+      return next
+    })
   }, [])
 
   const enableVideo = useCallback(async () => {
@@ -110,9 +131,11 @@ export function useMediaStream(): MediaStreamApi {
   return {
     audioTrack,
     videoTrack,
+    audioMuted,
     enableAudio,
     enableVideo,
     disableVideo,
+    toggleAudioMute,
     permissionError,
   }
 }

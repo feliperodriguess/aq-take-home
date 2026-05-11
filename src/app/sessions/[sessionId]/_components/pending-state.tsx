@@ -13,8 +13,8 @@ export function PendingState() {
           className="iris-pulse h-16 w-16 rounded-full"
           style={{
             background:
-              "radial-gradient(circle at 35% 30%, var(--color-apricot-300), var(--color-apricot-500) 60%, var(--color-apricot-600))",
-            boxShadow: "0 0 24px rgba(244,162,97,0.45)",
+              "radial-gradient(circle at 35% 30%, var(--color-marigold-300), var(--color-marigold-500) 60%, var(--color-marigold-600))",
+            boxShadow: "0 0 24px rgba(251,191,36,0.45)",
           }}
         />
         <div className="flex flex-col items-center gap-3">

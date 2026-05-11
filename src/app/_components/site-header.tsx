@@ -51,7 +51,7 @@ function NavLink({ href, active, icon, children }: NavLinkProps) {
       className={cn(
         "inline-flex items-center gap-2 rounded-[7px] border px-3 py-2 font-ui text-[12px] font-medium leading-none transition-colors duration-150",
         active
-          ? "border-[rgba(244,162,97,0.20)] bg-accent-soft text-accent"
+          ? "border-[rgba(251,191,36,0.20)] bg-accent-soft text-accent"
           : "border-transparent text-fg-2 hover:bg-bg-raised hover:text-fg-1",
       )}
     >

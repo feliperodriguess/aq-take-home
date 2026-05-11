@@ -9,7 +9,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         // Iris kinds (handoff)
-        primary: "bg-accent text-accent-fg border-transparent hover:bg-apricot-600",
+        primary: "bg-accent text-accent-fg border-transparent hover:bg-marigold-600",
         secondary: "bg-bg-raised text-fg-1 border-border-default hover:bg-bg-hover",
         ghost: "bg-transparent text-fg-2 border-transparent hover:text-fg-1 hover:bg-bg-hover",
         danger: "bg-fail/15 text-fail border-fail/30 hover:bg-fail/25",

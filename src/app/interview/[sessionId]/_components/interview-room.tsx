@@ -5,7 +5,7 @@ import { useCallback, useReducer } from "react"
 import { IrisAvatar } from "@/components/brand/iris-avatar"
 import { Logo } from "@/components/brand/logo"
 import { Toaster } from "@/components/ui/sonner"
-import { formatElapsed, getMicCaption, isBusy, isListening, isMicDisabled } from "@/lib/interview-room/phase-labels"
+import { getMicCaption, isBusy, isListening, isMicDisabled } from "@/lib/interview-room/phase-labels"
 import { getInitialRoomState, roomReducer } from "@/lib/interview-room/reducer"
 import type { DisplayTurn, TurnRole } from "@/lib/interview-room/types"
 import { cn } from "@/lib/utils"
@@ -20,6 +20,7 @@ import { EndButton } from "./end-button"
 import { HomeLink } from "./home-link"
 import { InterviewHero } from "./interview-hero"
 import { MicButton } from "./mic-button"
+import { MicMuteToggle } from "./mic-mute-toggle"
 import { PanelToggle } from "./panel-toggle"
 import { SelfView } from "./self-view"
 import { StatusPill } from "./status-pill"
@@ -79,7 +80,6 @@ export function InterviewRoom({ sessionId, job, initialTurns }: InterviewRoomPro
         </div>
         <div className="flex items-center gap-3">
           <StatusPill phase={phaseKind} />
-          <span className="font-mono text-[12px] tabular-nums text-fg-2">{formatElapsed(state.elapsedSec)}</span>
           <PanelToggle open={state.decisionOpen} onToggle={() => dispatch({ type: "TOGGLE_DECISION" })} />
           <EndButton disabled={phaseKind === "ending" || phaseKind === "done"} onConfirm={runner.handleManualEnd} />
         </div>
@@ -147,7 +147,9 @@ export function InterviewRoom({ sessionId, job, initialTurns }: InterviewRoomPro
           <div className="flex flex-col items-center gap-1.5">
             <MicButton
               listening={listening}
-              disabled={isMicDisabled(phaseKind)}
+              // Muting the mic also disables the record button: starting a
+              // turn while muted would just capture silence and confuse STT.
+              disabled={isMicDisabled(phaseKind) || media.audioMuted}
               busy={isBusy(phaseKind)}
               hasTurns={hasTurns}
               audioTrack={media.audioTrack}
@@ -155,6 +157,15 @@ export function InterviewRoom({ sessionId, job, initialTurns }: InterviewRoomPro
               onStart={runner.handleMicStart}
               onStop={runner.handleAudio}
               onError={runner.handleMicError}
+            />
+          </div>
+          <div className="flex flex-col items-center gap-1.5">
+            <MicMuteToggle
+              muted={media.audioMuted}
+              // Don't let the user mute mid-recording — that would corrupt
+              // the turn. The button stays clickable in every other phase.
+              disabled={listening}
+              onToggle={media.toggleAudioMute}
             />
           </div>
           <div className="flex flex-col items-center gap-1.5">

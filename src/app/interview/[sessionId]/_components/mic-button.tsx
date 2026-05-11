@@ -22,7 +22,7 @@ interface MicButtonProps {
   /** Live audio track from the shared `useMediaStream` hook. */
   audioTrack: MediaStreamTrack | null
   /** Lazily prompt for mic permission before recording the first utterance. */
-  enableAudio: () => Promise<void>
+  enableAudio: () => Promise<MediaStreamTrack>
   onStart: () => void
   onStop: (audio: Blob) => void
   /** Surfaced when permission denied or device errors. Parent renders the alert UI. */
@@ -68,7 +68,7 @@ export function MicButton({
         "relative inline-flex size-[60px] items-center justify-center rounded-full border transition-all duration-200 ease-out",
         "outline-none focus-visible:ring-2 focus-visible:ring-accent/40",
         listening
-          ? "bg-accent text-accent-fg border-transparent shadow-[0_0_36px_rgba(244,162,97,0.55)]"
+          ? "bg-accent text-accent-fg border-transparent shadow-[0_0_36px_rgba(251,191,36,0.55)]"
           : "bg-bg-raised text-fg-1 border-border-default hover:bg-bg-hover hover:border-border-strong",
         (disabled || busy) && "cursor-not-allowed opacity-60",
         pressing && !disabled && !busy && "translate-y-px",

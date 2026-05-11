@@ -15,7 +15,7 @@ const sizeMap: Record<LogoSize, { orb: number; text: number }> = {
 }
 
 /**
- * Iris wordmark — pulse-free apricot orb (radial gradient with soft glow)
+ * Iris wordmark — pulse-free marigold orb (radial gradient with soft glow)
  * paired with the "Iris" wordmark in the display serif. The trailing `s` is
  * italicised per the brand guideline.
  */
@@ -34,8 +34,8 @@ function Logo({ size = "md", className, ...props }: LogoProps) {
           width: orb,
           height: orb,
           background:
-            "radial-gradient(circle at 30% 30%, var(--color-apricot-300), var(--color-apricot-500) 70%, var(--color-apricot-600))",
-          boxShadow: "0 0 12px rgba(244, 162, 97, 0.4)",
+            "radial-gradient(circle at 30% 30%, var(--color-marigold-300), var(--color-marigold-500) 70%, var(--color-marigold-600))",
+          boxShadow: "0 0 12px rgba(251, 191, 36, 0.4)",
         }}
       />
       <span className="font-display tracking-[-0.01em]" style={{ fontSize: text }}>

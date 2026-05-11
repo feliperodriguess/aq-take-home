@@ -28,7 +28,7 @@ export function JobCard({ job }: JobCardProps) {
     <form
       action={startSessionAction}
       className={cn(
-        "group relative grid h-full min-h-[220px] grid-rows-[auto_1fr_auto] gap-[18px] overflow-hidden rounded-xl border border-border-default bg-bg-raised p-6 text-left",
+        "group relative grid h-full min-h-[220px] cursor-pointer grid-rows-[auto_1fr_auto] gap-[18px] overflow-hidden rounded-xl border border-border-default bg-bg-raised p-6 text-left",
         "transition-all duration-200 ease-out hover:border-border-strong hover:bg-bg-hover",
         "focus-within:border-border-strong focus-within:bg-bg-hover",
       )}
@@ -69,6 +69,11 @@ export function JobCard({ job }: JobCardProps) {
           aria-label={`Start interview for ${job.title}`}
           className={cn(
             "inline-flex items-center gap-1.5 rounded-md bg-transparent px-1 py-1 font-mono text-xs font-medium tracking-[0.04em] text-fg-3 transition-colors duration-150",
+            // Stretched-link overlay: an invisible ::before extends the
+            // button's hit area across the whole card, so clicking anywhere
+            // on the card submits the form. The visible "Begin →" stays
+            // where it is as the affordance.
+            "before:absolute before:inset-0 before:content-['']",
             "group-hover:text-accent group-focus-within:text-accent hover:text-accent focus-visible:text-accent",
             "outline-none focus-visible:ring-2 focus-visible:ring-ring/40",
           )}

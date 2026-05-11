@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 
 interface AccentLineProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
-   * Width of the apricot leading segment, in pixels. Defaults to 32 to match
+   * Width of the accent leading segment, in pixels. Defaults to 32 to match
    * the handoff.
    */
   width?: number
@@ -12,7 +12,7 @@ interface AccentLineProps extends React.HTMLAttributes<HTMLDivElement> {
 
 /**
  * AccentLine — section divider used throughout the Iris layout. A thin
- * apricot segment on the left, followed by the default subtle border to the
+ * marigold segment on the left, followed by the default subtle border to the
  * end of the row.
  */
 function AccentLine({ width = 32, className, style, ...props }: AccentLineProps) {

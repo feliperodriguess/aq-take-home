@@ -32,7 +32,7 @@ export function VideoToggle({ on, disabled, onToggle }: VideoToggleProps) {
         "relative inline-flex size-[60px] cursor-pointer items-center justify-center rounded-full border transition-all duration-200 ease-out",
         "outline-none focus-visible:ring-2 focus-visible:ring-accent/40",
         on
-          ? "border-accent bg-accent-soft text-accent hover:bg-bg-hover"
+          ? "border-accent bg-bg-raised text-accent hover:bg-bg-hover"
           : "border-border-default bg-bg-raised text-fg-2 hover:bg-bg-hover hover:text-fg-1",
         disabled && "cursor-not-allowed opacity-50 hover:bg-bg-raised",
       )}

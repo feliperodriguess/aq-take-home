@@ -8,7 +8,7 @@ interface TranscriptListProps {
 }
 
 /**
- * Full read-only conversation. Mono eyebrow role label per turn (apricot for
+ * Full read-only conversation. Mono eyebrow role label per turn (accent for
  * Iris, fg-3 for the candidate), serif-flavoured ui body text, AccentLine
  * separator between turns. Empty state is a small italic line.
  */

@@ -45,7 +45,7 @@ export function ResultsView({
         </div>
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.06em] text-accent transition-colors hover:text-apricot-300"
+          className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.06em] text-accent transition-colors hover:text-marigold-300"
         >
           <ArrowLeft size={12} weight="bold" />
           Back to roles

@@ -11,7 +11,7 @@ interface IrisAvatarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 /**
  * IrisAvatar — the persona orb. Two concentric rings (rendered only while
- * speaking) sit above an apricot radial-gradient core with a soft glow. The
+ * speaking) sit above a marigold radial-gradient core with a soft glow. The
  * `irisPulse` keyframe is defined in `globals.css`.
  */
 function IrisAvatar({ size = 96, speaking = false, className, style, ...props }: IrisAvatarProps) {
@@ -44,8 +44,8 @@ function IrisAvatar({ size = 96, speaking = false, className, style, ...props }:
           width: size,
           height: size,
           background:
-            "radial-gradient(circle at 35% 30%, var(--color-apricot-300), var(--color-apricot-500) 60%, var(--color-apricot-600))",
-          boxShadow: speaking ? "0 0 24px rgba(244, 162, 97, 0.5)" : "0 0 12px rgba(244, 162, 97, 0.25)",
+            "radial-gradient(circle at 35% 30%, var(--color-marigold-300), var(--color-marigold-500) 60%, var(--color-marigold-600))",
+          boxShadow: speaking ? "0 0 24px rgba(251, 191, 36, 0.5)" : "0 0 12px rgba(251, 191, 36, 0.25)",
         }}
       />
     </div>
