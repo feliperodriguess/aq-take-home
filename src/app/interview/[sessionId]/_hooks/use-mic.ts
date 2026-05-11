@@ -29,8 +29,8 @@ interface UseMicArgs {
   hasTurns: boolean
   /** Live audio track from the shared `useMediaStream` hook (null until enabled). */
   audioTrack: MediaStreamTrack | null
-  /** Lazily request mic permission. Called on the first start before any track exists. */
-  enableAudio: () => Promise<void>
+  /** Lazily request mic permission. Resolves with the obtained track so the caller can use it immediately. */
+  enableAudio: () => Promise<MediaStreamTrack>
   /** Fires when the recorder successfully starts. */
   onStart: () => void
   /** Fires once with the captured audio Blob when recording stops. */
@@ -83,10 +83,13 @@ export function useMic({
   const start = useCallback(async () => {
     if (recorderRef.current) return
     try {
-      if (!audioTrackRef.current) {
-        await enableAudio()
-      }
-      const track = audioTrackRef.current
+      // Read the track from `enableAudio`'s return value rather than the ref:
+      // the ref only updates on the *next* render via the effect below, so
+      // immediately after `await enableAudio()` `audioTrackRef.current` is
+      // still null even though the underlying mic is live. (That's the
+      // classic "Microphone unavailable on first click, recording dot
+      // already on" symptom.)
+      const track = audioTrackRef.current ?? (await enableAudio())
       if (!track) throw new Error("Microphone unavailable")
       const mime = pickMime()
       const recStream = new MediaStream([track])

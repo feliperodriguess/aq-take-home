@@ -19,8 +19,14 @@ export interface MediaStreamApi {
    * while muted so the user never accidentally records silence.
    */
   audioMuted: boolean
-  /** Lazily request mic permission and add the audio track. No-op if already enabled. */
-  enableAudio: () => Promise<void>
+  /**
+   * Lazily request mic permission and add the audio track. Returns the
+   * obtained track so callers can use it within the same async tick — the
+   * `audioTrack` state and `audioRef` don't update synchronously, so reading
+   * either right after `await enableAudio()` would still see `null`.
+   * No-op if already enabled (returns the existing track).
+   */
+  enableAudio: () => Promise<MediaStreamTrack>
   /** Lazily request camera permission and add the video track. No-op if already enabled. */
   enableVideo: () => Promise<void>
   /** Stop the camera track immediately (the OS indicator turns off) and remove it from the stream. */
@@ -60,16 +66,20 @@ export function useMediaStream(): MediaStreamApi {
   audioRef.current = audioTrack
   videoRef.current = videoTrack
 
-  const enableAudio = useCallback(async () => {
-    if (audioRef.current) return
+  const enableAudio = useCallback(async (): Promise<MediaStreamTrack> => {
+    if (audioRef.current) return audioRef.current
     try {
       const captured = await navigator.mediaDevices.getUserMedia({ audio: true })
       const track = captured.getAudioTracks()[0]
       if (!track) throw new Error("No audio track returned")
       // Honour any prior mute toggle made before the track existed.
       track.enabled = !audioMuted
+      // Update the ref synchronously so a same-tick re-entry sees the new
+      // track; React state still drives renders.
+      audioRef.current = track
       setAudioTrack(track)
       setPermissionError((prev) => (prev?.kind === "audio" ? null : prev))
+      return track
     } catch (err) {
       const reason = err instanceof Error ? err.message : "Couldn't access your microphone"
       setPermissionError({ kind: "audio", reason })
