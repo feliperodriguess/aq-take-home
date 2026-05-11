@@ -24,8 +24,8 @@ export function PendingState() {
             <span className="text-accent">…</span>
           </h1>
           <p className="max-w-md font-ui text-sm text-fg-3">
-            Iris is closing out the rubric and writing your debrief. This usually takes a few seconds — the page will
-            refresh automatically.
+            Iris is closing out the rubric and writing your debrief. This usually takes a few seconds, then the page
+            will refresh automatically.
           </p>
         </div>
       </main>

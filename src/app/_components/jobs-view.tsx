@@ -119,7 +119,7 @@ export function JobsView({ jobs }: JobsViewProps) {
           <div className="rounded-[10px] border border-dashed border-border-default p-12 text-center font-ui text-sm text-fg-3">
             {jobs.length === 0 ? (
               <>
-                No roles available — run <code className="font-mono text-fg-2">pnpm db:seed</code> to load the catalog.
+                No roles available. Run <code className="font-mono text-fg-2">pnpm db:seed</code> to load the catalog.
               </>
             ) : (
               "No matches. Try a different filter."
@@ -129,9 +129,9 @@ export function JobsView({ jobs }: JobsViewProps) {
 
         {/* Editorial footer */}
         <footer className="mt-16 flex flex-wrap items-baseline justify-between gap-3 border-t border-border-subtle pt-6">
-          <p className="m-0 max-w-[540px] font-ui text-[13px] leading-[1.5] text-fg-3">
+          <p className="m-0 max-w-[540px] font-ui text-[13px] leading-normal text-fg-3">
             Sessions are recorded locally for your review. Nothing is shared without your permission. Iris is built on
-            small, focused models — no surveillance, no scoring against other candidates.
+            small, focused models. No surveillance, no scoring against other candidates.
           </p>
           <span className="font-mono text-[10px] font-medium uppercase leading-none tracking-[0.16em] text-fg-4">
             v0.4 · private preview

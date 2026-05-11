@@ -45,7 +45,7 @@
       "id": "pm-frame-problem",
       "category": "technical",
       "competency": "Problem framing",
-      "prompt": "Your CEO walks up and says 'engagement is down — figure out what to do.' Walk me through how you'd respond in the next 48 hours.",
+      "prompt": "Your CEO walks up and says 'engagement is down, figure out what to do.' Walk me through how you'd respond in the next 48 hours.",
       "followUpHints": [
         "Probe for clarifying questions BEFORE jumping to solutions",
         "Ask how they'd segment the data",
@@ -97,7 +97,7 @@
       "followUpHints": [
         "Probe for whether they actually changed the plan",
         "Ask what they learned that wasn't in their head before",
-        "Push on the long-term relationship — was there fallout?"
+        "Push on the long-term relationship: was there fallout?"
       ],
       "difficulty": "medium"
     },
@@ -129,7 +129,7 @@
       "id": "pm-failed-launch",
       "category": "behavioral",
       "competency": "Execution",
-      "prompt": "Tell me about a feature that didn't work — that missed its goal or got rolled back. What happened, and what did you learn?",
+      "prompt": "Tell me about a feature that didn't work, that missed its goal or got rolled back. What happened, and what did you learn?",
       "followUpHints": [
         "Probe for honest ownership vs. blaming the team",
         "Ask what they'd do differently in the discovery phase",

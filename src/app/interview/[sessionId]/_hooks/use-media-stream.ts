@@ -153,7 +153,7 @@ export function useMediaStream(): MediaStreamApi {
 /** Map common `getUserMedia` rejection names to a human-friendly reason. */
 function errorReason(err: unknown): string {
   if (!(err instanceof Error)) return "Couldn't access the camera"
-  if (err.name === "NotAllowedError") return "Camera blocked — check your browser's site settings"
+  if (err.name === "NotAllowedError") return "Camera blocked. Check your browser's site settings."
   if (err.name === "NotFoundError") return "No camera detected"
   if (err.name === "NotReadableError") return "Camera is in use by another app"
   return err.message || "Couldn't access the camera"

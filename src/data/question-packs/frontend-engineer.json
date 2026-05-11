@@ -85,7 +85,7 @@
       "followUpHints": [
         "Probe for whether the fix was the simplest option",
         "Ask if state structure changes would have removed the need",
-        "Push for evidence — profiler before/after, not vibes"
+        "Push for evidence: profiler before/after, not vibes"
       ],
       "difficulty": "hard"
     },
@@ -121,7 +121,7 @@
       "followUpHints": [
         "Probe for whether they actually changed their mind, or pushed through",
         "Ask what data or evidence they brought to the discussion",
-        "Push on the long-term relationship — was there fallout?"
+        "Push on the long-term relationship: was there fallout?"
       ],
       "difficulty": "medium"
     },

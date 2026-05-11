@@ -36,7 +36,7 @@ export function ResultsView({
   overallScore,
 }: ResultsViewProps) {
   return (
-    <main className="mx-auto max-w-5xl space-y-12 bg-bg-canvas px-6 py-12">
+    <main className="mx-auto w-full min-w-0 max-w-5xl space-y-12 bg-bg-canvas px-6 py-12">
       {/* Top bar */}
       <header className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">

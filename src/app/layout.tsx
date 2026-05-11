@@ -24,8 +24,8 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Iris — AI Interviewer",
-  description: "Iris is your editorial AI interviewer — pick a role, step inside, and have a real conversation.",
+  title: "Iris · AI Interviewer",
+  description: "Iris is your editorial AI interviewer. Pick a role, step inside, and have a real conversation.",
 }
 
 export default function RootLayout({
@@ -43,7 +43,17 @@ export default function RootLayout({
         <body> after SSR — `suppressHydrationWarning` silences the resulting
         attribute mismatch on this element only; children still hydrate strictly.
       */}
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+      {/*
+        `[&>*]:min-w-0` — body is a flex column, so every direct child is a
+        flex item whose default `min-width: auto` is content-based. A deeply
+        nested wide element (e.g. a long line of JSON inside a <pre>) would
+        otherwise propagate its min-content width all the way up to the
+        flex item, making the whole page horizontally scroll on narrow
+        viewports. Setting min-width:0 on every direct child severs that
+        chain so children can shrink below their content's min-content,
+        and inner `overflow-x-auto` containers can actually scroll.
+      */}
+      <body className="min-h-full flex flex-col *:min-w-0" suppressHydrationWarning>
         {children}
       </body>
     </html>

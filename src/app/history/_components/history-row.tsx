@@ -24,13 +24,19 @@ export function HistoryRow({ row }: HistoryRowProps) {
     <Link
       href={linkForRow(row)}
       className={cn(
-        "grid grid-cols-[1fr_auto_auto_auto_auto_auto] items-center gap-x-5 gap-y-1 rounded-[10px]",
+        // Flex-wrap keeps the row on a single line when the viewport has
+        // room, then breaks the meta items onto subsequent lines on narrow
+        // screens (mobile, side-by-side previews) instead of clipping past
+        // the card's right edge.
+        "flex flex-wrap items-center gap-x-5 gap-y-2 rounded-[10px]",
         "border border-border-default bg-bg-raised px-5 py-4 transition-colors",
         "hover:bg-bg-hover hover:border-border-strong",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30",
       )}
     >
-      <span className="font-ui text-[14px] font-medium leading-[1.3] text-fg-1">{row.jobTitle}</span>
+      <span className="min-w-0 flex-1 basis-[160px] font-ui text-[14px] font-medium leading-[1.3] text-fg-1">
+        {row.jobTitle}
+      </span>
       <span className="font-mono text-[12px] leading-none text-fg-3">{row.company}</span>
       <span className="font-mono text-[11px] uppercase leading-none tracking-[0.04em] text-fg-4">
         {formatRelativeDate(row.startedAt)}
@@ -42,10 +48,8 @@ export function HistoryRow({ row }: HistoryRowProps) {
         <Pill tone={detail.tone} size="sm">
           {detail.label}
         </Pill>
-      ) : (
-        <span aria-hidden />
-      )}
-      <CaretRight size={14} weight="bold" className="text-fg-3" />
+      ) : null}
+      <CaretRight size={14} weight="bold" className="ml-auto shrink-0 text-fg-3" />
     </Link>
   )
 }

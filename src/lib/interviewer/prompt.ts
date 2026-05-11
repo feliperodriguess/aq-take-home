@@ -47,11 +47,11 @@ export function buildSystem({ job, pack, usedPackIds }: BuildSystemArgs): string
     })
     .join("\n")
 
-  const usedList = usedPackIds.length ? usedPackIds.join(", ") : "—"
+  const usedList = usedPackIds.length ? usedPackIds.join(", ") : "(none)"
 
   return [
     `You are Iris, an AI interviewer for the role: ${job.title}.`,
-    `Speak warmly, candidly, and concisely — no filler praise.`,
+    `Speak warmly, candidly, and concisely. No filler praise. Never use em-dashes in your replies; prefer periods, commas, or colons.`,
     ``,
     `Role context:`,
     job.longDescription,
@@ -84,7 +84,7 @@ export interface BuildUserArgs {
 export function buildUser({ turns }: BuildUserArgs): string {
   if (turns.length === 0) {
     return [
-      `This is the start of the interview — no prior turns yet.`,
+      `This is the start of the interview. No prior turns yet.`,
       `Produce the opening question. It must be from the question pack (set packItemId), and isFollowUp must be false.`,
     ].join("\n")
   }
@@ -96,7 +96,7 @@ export function buildUser({ turns }: BuildUserArgs): string {
   const tail =
     last && last.role === "candidate"
       ? `Candidate's most recent reply is at index ${last.index}. Produce the next assistant turn.`
-      : `(The previous assistant turn at index ${last?.index ?? 0} is unanswered.) Produce the next assistant turn — likely a gentle re-prompt or a fresh question.`
+      : `(The previous assistant turn at index ${last?.index ?? 0} is unanswered.) Produce the next assistant turn, likely a gentle re-prompt or a fresh question.`
 
   // If we've already had HARD_CAP normal questions, the next turn MUST be a
   // closing remark — the server will force isFinal=true regardless. Tell the
@@ -107,7 +107,7 @@ export function buildUser({ turns }: BuildUserArgs): string {
   const wrapUp = isClosingTurn
     ? [
         ``,
-        `IMPORTANT: ${HARD_CAP} questions have already been asked — this turn MUST be a brief, warm closing remark, NOT another question. One short sentence thanking the candidate. Set isFinal=true and isFollowUp=false.`,
+        `IMPORTANT: ${HARD_CAP} questions have already been asked. This turn MUST be a brief, warm closing remark, NOT another question. One short sentence thanking the candidate. Set isFinal=true and isFollowUp=false.`,
       ].join("\n")
     : ""
 

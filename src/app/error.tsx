@@ -39,8 +39,8 @@ export default function GlobalError({ error, reset }: ErrorBoundaryProps) {
           <span className="text-accent">.</span>
         </h1>
         <p className="m-0 max-w-xl text-base leading-[1.55] text-fg-2">
-          Iris hit an unexpected error before the room could open. Refresh, or pick a role again — your previous
-          sessions are safe.
+          Iris hit an unexpected error before the room could open. Refresh, or pick a role again. Your previous sessions
+          are safe.
         </p>
       </div>
 

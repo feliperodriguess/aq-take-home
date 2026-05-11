@@ -171,7 +171,7 @@ export async function POST(req: Request): Promise<NextResponse> {
  * cleanly.
  */
 const CLOSING_FALLBACK_TEXT =
-  "Thanks so much for walking me through all of that — I have everything I need. We'll be in touch."
+  "Thanks so much for walking me through all of that. I have everything I need. We'll be in touch."
 
 // ─── meta helpers ───────────────────────────────────────────────────────────
 //
