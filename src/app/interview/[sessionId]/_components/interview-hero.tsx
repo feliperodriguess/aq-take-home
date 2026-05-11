@@ -44,10 +44,12 @@ export function InterviewHero({ phase, turns, dispatch }: InterviewHeroProps) {
     return (
       <div className="max-w-2xl text-center">
         <p className="text-balance font-display text-4xl text-fg-1">
-          Click the mic when you're <span className="italic">ready</span>
+          Click play when you're <span className="italic">ready</span>
           <span className="text-accent">.</span>
         </p>
-        <p className="mt-4 font-ui text-sm text-fg-3">Iris will ask 6–8 questions and follow up where it matters.</p>
+        <p className="mt-4 font-ui text-sm text-fg-3">
+          Iris will ask around 10 questions and follow up where it matters.
+        </p>
       </div>
     )
   }

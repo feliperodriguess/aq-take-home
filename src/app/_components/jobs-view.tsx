@@ -76,8 +76,8 @@ export function JobsView({ jobs }: JobsViewProps) {
             <span className="text-accent">.</span>
           </h1>
           <p className="m-0 max-w-[560px] text-base leading-[1.55] text-fg-2">
-            Iris will ask you 6–8 questions tailored to the role. Speak out loud. She listens, follows up, and writes
-            you a private debrief at the end.
+            Iris will ask you around 10 questions tailored to the role. Speak out loud. She listens, follows up, and
+            writes you a private debrief at the end.
           </p>
         </div>
 
